@@ -12,8 +12,8 @@
             --primary: #6c5ce7;
             --text: #e2e2e2;
             --text-secondary: #8888aa;
-            --success: #00e676;
             --danger: #ff4757;
+            --success: #00e676;
             --radius: 16px;
         }
 
@@ -24,9 +24,7 @@
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            background-image: 
-                radial-gradient(ellipse at top, rgba(108,92,231,0.15), transparent 50%),
-                radial-gradient(ellipse at bottom, rgba(0,206,209,0.1), transparent 50%);
+            background-image: radial-gradient(ellipse at top, rgba(108,92,231,0.15), transparent 50%);
         }
 
         .header {
@@ -34,9 +32,6 @@
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -55,11 +50,11 @@
 
         .container {
             display: flex;
-            gap: 1.5rem;
-            padding: 1.5rem;
-            max-width: 1400px;
+            gap: 1rem;
+            padding: 1rem;
+            max-width: 1500px;
             margin: 0 auto;
-            height: calc(100vh - 100px);
+            height: calc(100vh - 90px);
         }
 
         .sidebar {
@@ -74,28 +69,24 @@
         }
 
         .sidebar-title {
-            padding: 1.2rem;
+            padding: 1rem;
             font-weight: 700;
             border-bottom: 1px solid var(--border);
             color: var(--primary);
             font-size: 1.1rem;
         }
 
-        .model-list {
-            list-style: none;
-            flex: 1;
-            overflow-y: auto;
-        }
+        .model-list { list-style: none; flex: 1; overflow-y: auto; }
 
         .model-item {
-            padding: 0.9rem 1.2rem;
+            padding: 0.9rem 1rem;
             cursor: pointer;
             transition: all 0.3s;
             border-bottom: 1px solid rgba(255,255,255,0.03);
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .model-item:hover { background: rgba(108,92,231,0.1); }
@@ -105,13 +96,13 @@
         }
 
         .model-icon {
-            width: 35px;
-            height: 35px;
+            width: 38px;
+            height: 38px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             flex-shrink: 0;
         }
 
@@ -179,8 +170,8 @@
         .typing-indicator {
             display: none;
             color: var(--text-secondary);
-            font-style: italic;
             padding: 0.5rem 1.5rem;
+            font-style: italic;
         }
 
         .typing-indicator.active { display: block; }
@@ -208,10 +199,7 @@
             line-height: 1.5;
         }
 
-        .input-area textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
+        .input-area textarea:focus { outline: none; border-color: var(--primary); }
 
         .btn-send {
             padding: 0.8rem 1.5rem;
@@ -263,20 +251,22 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-        .error-message {
-            background: rgba(255,71,87,0.1);
-            border: 1px solid var(--danger);
-            padding: 1rem;
-            border-radius: 12px;
-            color: var(--danger);
+        .model-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px;
         }
+        .status-online { background: var(--success); }
+        .status-offline { background: var(--danger); }
     </style>
 </head>
 <body>
     <div class="header">
         <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
         <div class="logo">⚡ DarkPS AI</div>
-        <div style="font-size:0.8rem; color: var(--text-secondary);">جميع النماذج في مكان واحد</div>
+        <div style="font-size:0.8rem; color: var(--text-secondary);">جميع النماذج الأصلية</div>
     </div>
 
     <div class="container">
@@ -291,12 +281,12 @@
                     <div class="message-avatar">🤖</div>
                     <div class="message-content">
                         <strong>👋 مرحباً بك في منصة DarkPS!</strong><br><br>
-                        📌 اختر نموذجاً من القائمة الجانبية للبدء.<br>
-                        ✨ جميع النماذج متاحة ومجانية للتجربة.
+                        📌 جميع النماذج الأصلية من الأكواد التي أرسلتها.<br>
+                        🔥 اختر نموذجاً من القائمة وابدأ المحادثة.
                     </div>
                 </div>
             </div>
-            <div class="typing-indicator" id="typingIndicator">⏳ جاري الكتابة...</div>
+            <div class="typing-indicator" id="typingIndicator">⏳ جاري المعالجة...</div>
             <div class="input-area">
                 <textarea id="userInput" placeholder="اكتب رسالتك هنا... (Enter للإرسال)" rows="1"></textarea>
                 <button class="btn-send" id="btnSend" onclick="sendMessage()">🚀 إرسال</button>
@@ -305,15 +295,31 @@
     </div>
 
     <script>
-        // ============ تعريف النماذج ============
+        // ============ تعريف جميع النماذج الأصلية ============
         const models = [
             {
                 id: 'flexgpt',
-                name: 'FlexGPT',
-                provider: 'Asiacell العراق',
+                name: 'FlexGPT (اسياسيل)',
+                provider: 'Asiacell Iraq',
                 icon: '🇮🇶',
                 color: '#e91e63',
-                description: 'نموذج عراقي من اسياسيل'
+                description: 'نموذج اسياسيل الرسمي - لهجة عراقية'
+            },
+            {
+                id: 'deepseek-chat',
+                name: 'DeepSeek Chat',
+                provider: 'DeepSeek AI',
+                icon: '🐋',
+                color: '#4b32c3',
+                description: 'DeepSeek V3 - نموذج المحادثة المتقدم'
+            },
+            {
+                id: 'deepseek-r1',
+                name: 'DeepSeek R1',
+                provider: 'DeepSeek AI',
+                icon: '🧠',
+                color: '#00b894',
+                description: 'DeepSeek R1 - نموذج التفكير العميق'
             },
             {
                 id: 'gemini-google',
@@ -321,15 +327,7 @@
                 provider: 'Google',
                 icon: '🔵',
                 color: '#4285f4',
-                description: 'نموذج Gemini من جوجل'
-            },
-            {
-                id: 'deepseek-chat',
-                name: 'DeepSeek Chat',
-                provider: 'DeepSeek',
-                icon: '🐋',
-                color: '#4b32c3',
-                description: 'نموذج DeepSeek المجاني'
+                description: 'Gemini 2.5 Flash - نموذج جوجل'
             },
             {
                 id: 'kilwa-grok',
@@ -337,7 +335,7 @@
                 provider: 'KILWA',
                 icon: '🌌',
                 color: '#ff6b6b',
-                description: 'نموذج Grok 4.3'
+                description: 'Grok 4.3 - نموذج متقدم'
             },
             {
                 id: 'livechatai',
@@ -345,11 +343,56 @@
                 provider: 'LiveChat',
                 icon: '💬',
                 color: '#00b894',
-                description: 'مساعد ذكي متعدد الاستخدامات'
+                description: 'مساعد ذكي للمحادثات'
+            },
+            {
+                id: 'chatbox-gemini',
+                name: 'Gemini ChatBox',
+                provider: 'Google',
+                icon: '💎',
+                color: '#0984e3',
+                description: 'Gemini 2.5 Flash عبر ChatBox'
+            },
+            {
+                id: 'rewind-gpt',
+                name: 'GPT-5 (Rewind)',
+                provider: 'OpenAI',
+                icon: '⚡',
+                color: '#00a67d',
+                description: 'GPT-5 عبر Rewind.ai'
+            },
+            {
+                id: 'rewind-grok',
+                name: 'Grok 4.3 (Rewind)',
+                provider: 'x.AI',
+                icon: '🚀',
+                color: '#ff4757',
+                description: 'Grok عبر Rewind.ai'
             }
         ];
 
         let currentModel = null;
+
+        // ============ CORS Proxy ============
+        const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+        
+        async function fetchWithProxy(url, options = {}) {
+            // محاولة مباشرة أولاً
+            try {
+                const response = await fetch(url, options);
+                if (response.ok) return response;
+            } catch (e) {}
+            
+            // استخدام الوكيل
+            const proxyUrl = CORS_PROXY + encodeURIComponent(url);
+            return await fetch(proxyUrl, options);
+        }
+
+        async function fetchJSON(url, options = {}) {
+            const response = await fetchWithProxy(url, options);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.json();
+        }
 
         // ============ تهيئة القائمة ============
         function initModelList() {
@@ -380,9 +423,8 @@
             element.classList.add('active');
             currentModel = model;
             
-            addMessage('assistant', `✅ <strong>تم اختيار: ${model.name}</strong>\n📝 ${model.description}\n\n💡 اكتب رسالتك واضغط Enter أو زر الإرسال`);
+            addMessage('assistant', `✅ <strong>تم اختيار: ${model.name}</strong>\n📝 ${model.description}\n\n💡 اكتب رسالتك واضغط Enter`);
             
-            // إغلاق السايد بار في الموبايل
             document.getElementById('sidebar').classList.remove('open');
         }
 
@@ -406,17 +448,12 @@
             const btnSend = document.getElementById('btnSend');
             const message = input.value.trim();
             
-            if (!message) {
-                input.focus();
-                return;
-            }
-            
+            if (!message) { input.focus(); return; }
             if (!currentModel) {
                 alert('⚠️ الرجاء اختيار نموذج أولاً من القائمة الجانبية');
                 return;
             }
 
-            // تعطيل الزر والإدخال
             input.value = '';
             input.disabled = true;
             btnSend.disabled = true;
@@ -427,16 +464,18 @@
             typingIndicator.classList.add('active');
 
             try {
-                // استدعاء المعالج المناسب
                 switch(currentModel.id) {
                     case 'flexgpt':
                         await handleFlexGPT(message);
                         break;
-                    case 'gemini-google':
-                        await handleGemini(message);
-                        break;
                     case 'deepseek-chat':
                         await handleDeepSeek(message);
+                        break;
+                    case 'deepseek-r1':
+                        await handleDeepSeekR1(message);
+                        break;
+                    case 'gemini-google':
+                        await handleGemini(message);
                         break;
                     case 'kilwa-grok':
                         await handleKilwaGrok(message);
@@ -444,12 +483,21 @@
                     case 'livechatai':
                         await handleLiveChatAI(message);
                         break;
+                    case 'chatbox-gemini':
+                        await handleChatBoxGemini(message);
+                        break;
+                    case 'rewind-gpt':
+                        await handleRewindGPT(message);
+                        break;
+                    case 'rewind-grok':
+                        await handleRewindGrok(message);
+                        break;
                     default:
-                        addMessage('assistant', '❌ هذا النموذج غير مدعوم حالياً.');
+                        addMessage('assistant', '❌ هذا النموذج غير مدعوم.');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                addMessage('assistant', `❌ حدث خطأ: ${error.message || 'فشل الاتصال بالخادم'}`);
+                addMessage('assistant', `❌ خطأ: ${error.message || 'فشل الاتصال'}`);
             } finally {
                 typingIndicator.classList.remove('active');
                 input.disabled = false;
@@ -458,218 +506,209 @@
             }
         }
 
-        // ============ معالجات النماذج ============
-        
+        // ============ 1. FlexGPT (اسياسيل العراق) ============
         async function handleFlexGPT(message) {
-            try {
-                const response = await fetch('https://api.flexgpt.live/api/chat/526', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzMTk1MDUiLCJ1bmlxdWVfbmFtZSI6IlZBUyBVc2VyIiwibmJmIjoxNzg0MDc3MjkwLCJleHAiOjE3ODQ2ODIwOTAsImlhdCI6MTc4NDA3NzI5MH0.bGZnVKFIaLJh8WsxqmIX3yzOxzpYK4f0RQ8d5eumOic'
-                    },
-                    body: JSON.stringify({ message: message, isWebSearch: false })
-                });
-                
-                if (!response.ok) throw new Error('خطأ في الاتصال بـ FlexGPT');
-                
-                const data = await response.json();
-                addMessage('assistant', data.response || 'لا يوجد رد من النموذج.');
-            } catch (error) {
-                throw new Error('فشل الاتصال بـ FlexGPT: ' + error.message);
-            }
+            const data = await fetchJSON('https://api.flexgpt.live/api/chat/526', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzMTk1MDUiLCJ1bmlxdWVfbmFtZSI6IlZBUyBVc2VyIiwibmJmIjoxNzg0MDc3MjkwLCJleHAiOjE3ODQ2ODIwOTAsImlhdCI6MTc4NDA3NzI5MH0.bGZnVKFIaLJh8WsxqmIX3yzOxzpYK4f0RQ8d5eumOic'
+                },
+                body: JSON.stringify({ message: message, isWebSearch: false })
+            });
+            addMessage('assistant', data.response || 'لا يوجد رد.');
         }
 
-        async function handleGemini(message) {
-            try {
-                const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyDumiLcWmAsmJxJxQxZqFqHqZqFqHqZqF', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: message }] }]
-                    })
-                });
-                
-                // Fallback: استخدام واجهة بديلة
-                const fallbackResponse = await fetch('https://api.rewind.ai/v1/chat/completions/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        messages: [{ role: 'user', content: message }],
-                        model: 'google/gemini-2.5-flash',
-                        stream: false
-                    })
-                });
-                
-                if (fallbackResponse.ok) {
-                    const data = await fallbackResponse.json();
-                    const reply = data.choices?.[0]?.message?.content || 'لا يوجد رد.';
-                    addMessage('assistant', reply);
-                } else {
-                    throw new Error('فشل الاتصال');
-                }
-            } catch (error) {
-                addMessage('assistant', '⚠️ نموذج Gemini غير متاح حالياً. جرب نموذجاً آخر مثل DeepSeek أو FlexGPT.');
-            }
-        }
-
+        // ============ 2. DeepSeek Chat ============
         async function handleDeepSeek(message) {
-            try {
-                const response = await fetch('https://api.rewind.ai/v1/chat/completions/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        messages: [{ role: 'user', content: message }],
-                        model: 'deepseek/deepseek-v3',
-                        stream: false
-                    })
-                });
-                
-                if (!response.ok) throw new Error('خطأ في الخادم');
-                
-                const data = await response.json();
-                const reply = data.choices?.[0]?.message?.content || 'لا يوجد رد.';
-                addMessage('assistant', reply);
-            } catch (error) {
-                // Fallback: تجربة DeepSeek المجاني
-                try {
-                    const fallbackResponse = await fetch('https://chat-deep.ai/wp-json/dsc/v1/chat', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            messages: [
-                                { role: 'system', content: 'أنت مساعد مفيد.' },
-                                { role: 'user', content: message }
-                            ],
-                            model: 'deepseek-v3',
-                            thinking: false
-                        })
-                    });
-                    
-                    if (fallbackResponse.ok) {
-                        const text = await fallbackResponse.text();
-                        const lines = text.split('\n');
-                        let fullResponse = '';
-                        
-                        for (const line of lines) {
-                            if (line.startsWith('data: ') && line !== 'data: [DONE]') {
-                                try {
-                                    const json = JSON.parse(line.slice(6));
-                                    const content = json.choices?.[0]?.delta?.content || '';
-                                    fullResponse += content;
-                                } catch {}
-                            }
-                        }
-                        
-                        addMessage('assistant', fullResponse || 'لا يوجد رد.');
-                    } else {
-                        throw new Error('فشل الاتصال');
-                    }
-                } catch {
-                    addMessage('assistant', '⚠️ نموذج DeepSeek غير متاح حالياً. جرب FlexGPT أو KILWA GROK.');
-                }
-            }
-        }
-
-        async function handleKilwaGrok(message) {
-            try {
-                const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent('http://de3.bot-hosting.net:21007/kilwa-grok?text=' + encodeURIComponent(message))}`);
-                
-                if (!response.ok) throw new Error('خطأ في الاتصال');
-                
-                const data = await response.json();
-                addMessage('assistant', data.reply || 'لا يوجد رد.');
-            } catch (error) {
-                // محاولة مباشرة
-                try {
-                    const directResponse = await fetch(`http://de3.bot-hosting.net:21007/kilwa-grok?text=${encodeURIComponent(message)}`);
-                    if (directResponse.ok) {
-                        const data = await directResponse.json();
-                        addMessage('assistant', data.reply || 'لا يوجد رد.');
-                    } else {
-                        throw new Error('فشل');
-                    }
-                } catch {
-                    addMessage('assistant', '⚠️ KILWA GROK غير متاح حالياً. قد يكون الخادم متوقفاً.');
-                }
-            }
-        }
-
-        async function handleLiveChatAI(message) {
-            try {
-                // الخطوة 1: إنشاء محادثة
-                const initResponse = await fetch('https://app.livechatai.com/api/v1/aibot/reply', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chatbotId: 'clm2020z80001mh0f58no73h8',
-                        question: message,
-                        messageType: 'TEXT',
-                        isFollowUp: false,
-                        streaming: true,
-                        country: 'PS',
-                        chatType: 'MESSENGER'
-                    })
-                });
-                
-                if (!initResponse.ok) throw new Error('خطأ في إنشاء المحادثة');
-                
-                const initData = await initResponse.json();
-                const chatId = initData.chatId;
-                
-                if (!chatId) throw new Error('لم يتم الحصول على معرف المحادثة');
-                
-                // الخطوة 2: متابعة المحادثة
-                const followResponse = await fetch('https://app.livechatai.com/api/v1/aibot/reply', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chatbotId: 'clm2020z80001mh0f58no73h8',
-                        chatId: chatId,
-                        question: 'اكمل',
-                        messageType: 'TEXT',
-                        isFollowUp: true,
-                        streaming: true,
-                        country: 'PS',
-                        chatType: 'MESSENGER'
-                    })
-                });
-                
-                const text = await followResponse.text();
-                const lines = text.split('\n');
+            // استخدام نفس طريقة الكود الأصلي: chat-deep.ai
+            const data = await fetchJSON('https://chat-deep.ai/wp-json/dsc/v1/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    messages: [
+                        { role: 'system', content: 'أنت مساعد مفيد.' },
+                        { role: 'user', content: message }
+                    ],
+                    model: 'deepseek-v3',
+                    thinking: false
+                })
+            });
+            
+            // معالجة الرد المتدفق
+            if (typeof data === 'string') {
+                const lines = data.split('\n');
                 let fullResponse = '';
-                const msgElement = addMessage('assistant', '');
-                
+                for (const line of lines) {
+                    if (line.startsWith('data: ') && line !== 'data: [DONE]') {
+                        try {
+                            const json = JSON.parse(line.slice(6));
+                            fullResponse += json.choices?.[0]?.delta?.content || '';
+                        } catch {}
+                    }
+                }
+                addMessage('assistant', fullResponse || 'لا يوجد رد.');
+            } else {
+                addMessage('assistant', data.response || JSON.stringify(data));
+            }
+        }
+
+        // ============ 3. DeepSeek R1 ============
+        async function handleDeepSeekR1(message) {
+            const data = await fetchJSON('https://api.rewind.ai/v1/chat/completions/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: [{ role: 'user', content: message }],
+                    model: 'deepseek/deepseek-r1',
+                    stream: false
+                })
+            });
+            const reply = data.choices?.[0]?.message?.content || 'لا يوجد رد.';
+            addMessage('assistant', reply);
+        }
+
+        // ============ 4. Google Gemini ============
+        async function handleGemini(message) {
+            const data = await fetchJSON('https://api.rewind.ai/v1/chat/completions/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: [{ role: 'user', content: message }],
+                    model: 'google/gemini-2.5-flash',
+                    stream: false
+                })
+            });
+            const reply = data.choices?.[0]?.message?.content || 'لا يوجد رد.';
+            addMessage('assistant', reply);
+        }
+
+        // ============ 5. KILWA GROK ============
+        async function handleKilwaGrok(message) {
+            const data = await fetchJSON(`http://de3.bot-hosting.net:21007/kilwa-grok?text=${encodeURIComponent(message)}`);
+            addMessage('assistant', data.reply || 'لا يوجد رد.');
+        }
+
+        // ============ 6. LiveChatAI ============
+        async function handleLiveChatAI(message) {
+            // إنشاء محادثة
+            const initData = await fetchJSON('https://app.livechatai.com/api/v1/aibot/reply', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chatbotId: 'clm2020z80001mh0f58no73h8',
+                    question: message,
+                    messageType: 'TEXT',
+                    isFollowUp: false,
+                    streaming: false,
+                    country: 'PS',
+                    chatType: 'MESSENGER'
+                })
+            });
+            
+            const chatId = initData.chatId;
+            if (!chatId) throw new Error('لم يتم الحصول على chatId');
+            
+            // متابعة المحادثة
+            const followData = await fetchJSON('https://app.livechatai.com/api/v1/aibot/reply', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chatbotId: 'clm2020z80001mh0f58no73h8',
+                    chatId: chatId,
+                    question: 'اكمل',
+                    messageType: 'TEXT',
+                    isFollowUp: true,
+                    streaming: false,
+                    country: 'PS',
+                    chatType: 'MESSENGER'
+                })
+            });
+            
+            // استخراج النص
+            if (typeof followData === 'string') {
+                const lines = followData.split('\n');
+                let fullResponse = '';
                 for (const line of lines) {
                     if (line.includes('"type":"chunk"')) {
                         const match = line.match(/"token":"([^"]*)"/);
-                        if (match && match[1]) {
-                            fullResponse += match[1];
-                            msgElement.innerHTML = fullResponse.replace(/\n/g, '<br>');
-                            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
-                        }
+                        if (match) fullResponse += match[1];
                     }
                 }
-                
-                if (!fullResponse) {
-                    msgElement.innerHTML = 'لا يوجد رد من المساعد.';
-                }
-            } catch (error) {
-                addMessage('assistant', '⚠️ LiveChatAI غير متاح حالياً. جرب نموذجاً آخر.');
+                addMessage('assistant', fullResponse || 'لا يوجد رد.');
+            } else {
+                addMessage('assistant', followData.message || JSON.stringify(followData));
             }
+        }
+
+        // ============ 7. Gemini ChatBox ============
+        async function handleChatBoxGemini(message) {
+            const data = await fetchJSON('https://api.florate.io/v2/chats/stream', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIzMTk1MDUiLCJ1bmlxdWVfbmFtZSI6IlZBUyBVc2VyIiwibmJmIjoxNzg0MDc3MjkwLCJleHAiOjE3ODQ2ODIwOTAsImlhdCI6MTc4NDA3NzI5MH0.bGZnVKFIaLJh8WsxqmIX3yzOxzpYK4f0RQ8d5eumOic'
+                },
+                body: JSON.stringify({
+                    model: 'gemini-2.5-flash',
+                    messages: [{ content: [{ type: 'text', text: message }], role: 'user' }],
+                    func_scopes: [{ scope: 'web_search_v2', config: { model: 'sonar' } }]
+                })
+            });
+            
+            if (typeof data === 'string') {
+                const lines = data.split('\n');
+                let fullResponse = '';
+                for (const line of lines) {
+                    if (line.startsWith('data: ') && line !== 'data: [DONE]') {
+                        try {
+                            const json = JSON.parse(line.slice(6));
+                            fullResponse += json.choices?.[0]?.delta?.content || '';
+                        } catch {}
+                    }
+                }
+                addMessage('assistant', fullResponse || 'لا يوجد رد.');
+            } else {
+                addMessage('assistant', JSON.stringify(data));
+            }
+        }
+
+        // ============ 8. GPT-5 via Rewind ============
+        async function handleRewindGPT(message) {
+            const data = await fetchJSON('https://api.rewind.ai/v1/chat/completions/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: [{ role: 'user', content: message }],
+                    model: 'openai/gpt-5',
+                    stream: false
+                })
+            });
+            const reply = data.choices?.[0]?.message?.content || 'لا يوجد رد.';
+            addMessage('assistant', reply);
+        }
+
+        // ============ 9. Grok via Rewind ============
+        async function handleRewindGrok(message) {
+            const data = await fetchJSON('https://api.rewind.ai/v1/chat/completions/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: [{ role: 'user', content: message }],
+                    model: 'xai/grok-4.3',
+                    stream: false
+                })
+            });
+            const reply = data.choices?.[0]?.message?.content || 'لا يوجد رد.';
+            addMessage('assistant', reply);
         }
 
         // ============ بدء التشغيل ============
         function init() {
             initModelList();
             
-            // تفعيل زر Enter للإرسال
             document.getElementById('userInput').addEventListener('keydown', function(e) {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -677,17 +716,15 @@
                 }
             });
             
-            // اختيار أول نموذج تلقائياً
             setTimeout(() => {
                 const firstModel = document.querySelector('.model-item');
                 if (firstModel) firstModel.click();
             }, 500);
             
-            console.log('✅ منصة DarkPS جاهزة للعمل');
+            console.log('✅ منصة DarkPS جاهزة - جميع النماذج الأصلية');
             console.log('📋 عدد النماذج:', models.length);
         }
 
-        // تشغيل المنصة
         init();
     </script>
 </body>
